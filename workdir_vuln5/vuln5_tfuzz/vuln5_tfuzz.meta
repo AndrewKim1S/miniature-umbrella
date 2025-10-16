@@ -1,0 +1,7 @@
+[tmeta]
+c_all_block_addrs = []
+c_all_instr_addrs = []
+c_block_addr = None
+c_instr_addr = None
+inputs_from_fuzzing_parent = None
+

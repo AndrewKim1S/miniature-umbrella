@@ -1,0 +1,7 @@
+[tmeta]
+c_all_block_addrs = [134514605, 134513990]
+c_all_instr_addrs = [134514640L, 134513996L]
+c_block_addr = 134513990
+c_instr_addr = 134513996
+inputs_from_fuzzing_parent = ['/root/release/work_vuln5_2/fuzzing_vuln5_unix_tfuzz_0/vuln5_unix_tfuzz_0/sync/fuzzer-master/queue/id:000000,orig:seed-0']
+

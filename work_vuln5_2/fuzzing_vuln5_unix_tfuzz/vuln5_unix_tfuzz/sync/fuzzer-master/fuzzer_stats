@@ -1,0 +1,27 @@
+start_time        : 1761219977
+last_update       : 1761220039
+fuzzer_pid        : 16344
+cycles_done       : 1212
+execs_done        : 623743
+execs_per_sec     : 10131.44
+paths_total       : 2
+paths_favored     : 2
+paths_found       : 1
+paths_imported    : 0
+max_depth         : 2
+cur_path          : 1
+pending_favs      : 0
+pending_total     : 0
+variable_paths    : 0
+stability         : 100.00%
+bitmap_cvg        : 0.01%
+unique_crashes    : 0
+unique_hangs      : 0
+last_path         : 1761219977
+last_crash        : 0
+last_hang         : 0
+execs_since_crash : 623743
+exec_timeout      : 20
+afl_banner        : fuzzer-master
+afl_version       : 2.51b
+command_line      : /root/.virtualenvs/tfuzz_test/bin/afl-unix/afl-fuzz -i /root/release/work_vuln5_2/fuzzing_vuln5_unix_tfuzz/vuln5_unix_tfuzz/input -o /root/release/work_vuln5_2/fuzzing_vuln5_unix_tfuzz/vuln5_unix_tfuzz/sync -m 8G -M fuzzer-master -x /root/release/work_vuln5_2/vuln5_unix.dict -- /root/release/work_vuln5_2/vuln5_unix_tfuzz/vuln5_unix_tfuzz 

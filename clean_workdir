@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e
+
+WORKDIR="$1"
+DRYRUN="$2"
+
+if [[ -z "$WORKDIR" ]]; then
+    echo "Usage: $0 <work_dir> [--dry-run]"
+    exit 1
+fi
+
+if [[ ! -d "$WORKDIR" ]]; then
+    echo "Error: directory '$WORKDIR' does not exist."
+    exit 1
+fi
+
+echo "Cleaning TFuzz directories under: $WORKDIR"
+[[ "$DRYRUN" == "--dry-run" ]] && echo "(Dry run mode – nothing will be deleted)"
+
+# Find all transformed program directories (e.g., vuln5_tfuzz_0)
+find "$WORKDIR" -maxdepth 1 -type d -name "*_tfuzz_*" ! -name "fuzzing_*" | while read tfuzz_dir; do
+    base="$(basename "$tfuzz_dir")"
+    fuzz_dir="$WORKDIR/fuzzing_${base}"
+
+    # Skip the base program (vuln5_tfuzz)
+    if [[ "$base" == *_tfuzz && ! "$base" =~ _tfuzz_[0-9] ]]; then
+        continue
+    fi
+
+    # Search for crashes under corresponding fuzzing dir
+    if [[ -d "$fuzz_dir" ]] && find "$fuzz_dir" -type f -path '*/crashes/id:*' | grep -q .; then
+        echo "Keeping $tfuzz_dir and $fuzz_dir (crashes found)"
+    else
+        echo "Deleting $tfuzz_dir and its fuzzing dir (no crashes found)"
+        if [[ "$DRYRUN" != "--dry-run" ]]; then
+            rm -rf "$tfuzz_dir"
+            [[ -d "$fuzz_dir" ]] && rm -rf "$fuzz_dir"
+        fi
+    fi
+done
+
+echo "Cleanup complete."
+

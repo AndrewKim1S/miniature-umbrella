@@ -1,1 +1,0 @@
-open('seeds/vuln_transform/seed3','wb').write(bytes([i

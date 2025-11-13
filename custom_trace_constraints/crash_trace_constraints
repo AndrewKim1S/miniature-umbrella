@@ -1,0 +1,115 @@
+#!/usr/bin/env python
+
+import sys
+import os
+import time
+import socket
+import signal
+import subprocess32
+import re
+
+try:
+    import shellphish_qemu
+except ImportError:
+    raise ImportError("Import Error for shellphish_qemu")
+
+
+def trace(binary, argv, input_data, stdin, tracer, trace_log):
+  # Set arguments for tracer
+  args = [tracer]
+  args += ["-d", "exec", "-D", trace_log]
+  args += [binary] + list(argv)
+
+  with open('/dev/null', 'wb') as devnull:
+    # Clear and save environment variable QEMU_LD_PREFIX
+    x = os.environ['QEMU_LD_PREFIX'] if 'QEMU_LD_PREFIX' in os.environ else None
+    os.environ['QEMU_LD_PREFIX'] = ''
+
+    # Run the tracer
+    # Case when binary takes input from stdin
+    if stdin:
+      in_s, out_s = socket.socketpair()
+      p = subprocess32.Popen(args, stdin=in_s, stdout=devnull, stderr=devnull)
+      for write in input_data:
+        out_s.send(write)
+        time.sleep(.01)
+    # Case when binary takes input from file
+    else:
+      p = subprocess32.Popen(args, stdin=subprocess32.PIPE, stdout=devnull, stderr=devnull)
+      _, _ = p.communicate(input_data)
+
+    # Reset environment variable QEMU_LD_PREFIX
+    os.environ['QEMU_LD_PREFIX'] = x if x is not None else ''
+
+    # Check for crash
+    ret = p.wait()
+    crash = False
+    if abs(ret) == signal.SIGSEGV or abs(ret) == signal.SIGILL:
+      crash = True
+      print "[!] Input caused crash during tracing"
+
+    # Manage the trace log
+    trace_file = open(trace_log).read()
+    addrs = []
+    qemu_base_addr = int(trace_file.split("start_code")[1].split("\n")[0], 16)
+    prog = re.compile(r'Trace (.*) \[(?P<addr>.*)\].*')
+    for t in trace.split('\n'):
+      m = prog.match(t)
+      if m != None:
+        addr_str = m.group('addr')
+        addrs.append(int(addr_str, base=16))
+      else:
+        continue
+    
+    crash_addr = None
+    if crash:
+      crash_addr = int(trace_file.split('\n')[-2].split('[')[1].split(']')[0], 16)
+      print "[+] Crash Addr: %s" % crash_addr
+    print "[+] Trace Consists of %d addrs" % len(addrs)
+
+
+def main():
+  # Check args
+  if len(sys.argv) < 3:
+    print "Usage: %s <binary> <input_file> <stdin=true> <tracer> <trace_log>" % sys.argv[0]  
+    sys.exit(1)
+
+  binary = sys.argv[1]
+  binary_path = os.path.abspath(binary)
+  input_file = sys.argv[2]
+  input_data = None
+  stdin = sys.argv[3]
+  if stdin == True:
+    input_data = []
+    try:
+      with open(input_file, 'r') as f:
+        for line in f:
+          input_data.append(line.strip())
+    except IOError as e:
+      print "[!] Error reading input file"
+      sys.exit(1)
+  else:
+    input_data = input_file
+        
+  # tracer 
+  # x86 arch, 64 bit -> linux-x86_64
+  # x86 arch, 32 bit -> linux-i386
+  tracer = sys.argv[4]
+  trace_path = shellphish_qemu.qemu_path(tracer)
+  if not os.access(trace_path, os.X_OK):
+    print "[!] Tracer invalid"
+    sys.exit(1)
+  trace_log = sys.argv[5]
+
+  # For now this is set to empty
+  argv = []
+
+  # Trace the binary
+  print "[+] Tracing binary with input"
+  trace(binary_path, argv, input_data, stdin, trace_path, trace_log)
+  print "[+] Tracing Complete"
+  return
+
+
+if __name__ == '__main__':
+  main()

@@ -1,6 +1,6 @@
 Reserved 0xf7000000 bytes of guest address space
 host mmap_min_addr=0x10000
-guest_base  0x7fed76c24000
+guest_base  0x7fe46de19000
 start    end      size     prot
 08048000-08049000 00001000 r-x
 08049000-0804b000 00002000 rw-
@@ -16,54 +16,60 @@ end_data    0x0804a044
 start_stack 0xf6fff620
 brk         0x0804a104
 entry       0xf67daa20
-Trace 0x55a2d4e22560 [08048649] 
-Trace 0x55a2d4e22660 [08048480] 
-Trace 0x55a2d4e22690 [08048486] 
-Trace 0x55a2d4e226e0 [08048410] 
-Trace 0x55a2d4e23d80 [08048980] __libc_csu_init
-Trace 0x55a2d4e23e10 [08048670] __x86.get_pc_thunk.bx
-Trace 0x55a2d4e23e50 [08048989] __libc_csu_init
-Trace 0x55a2d4e23ee0 [080483e8] 
-Trace 0x55a2d4e23e10 [08048670] __x86.get_pc_thunk.bx
-Trace 0x55a2d4e23f60 [080483f1] 
-Trace 0x55a2d4e23ff0 [08048406] 
-Trace 0x55a2d4e24060 [080489a1] __libc_csu_init
-Trace 0x55a2d4e240f0 [080489b0] __libc_csu_init
-Trace 0x55a2d4e241a0 [08048710] 
-Trace 0x55a2d4e24220 [0804871b] 
-Trace 0x55a2d4e24260 [080486b0] 
-Trace 0x55a2d4e242e0 [080486e3] 
-Trace 0x55a2d4e24320 [080489cb] __libc_csu_init
-Trace 0x55a2d4e243b0 [080489d5] __libc_csu_init
-Trace 0x55a2d4e248b0 [080484f0] main
-Trace 0x55a2d4e24940 [08048838] 
-Trace 0x55a2d4e249f0 [08048860] 
-Trace 0x55a2d4e24a70 [08048869] 
-Trace 0x55a2d4e24af0 [08048460] 
-Trace 0x55a2d4e24b20 [08048466] 
-Trace 0x55a2d4e226e0 [08048410] 
-Trace 0x55a2d4e258d0 [08048875] 
-Trace 0x55a2d4e25950 [08048958] 
-Trace 0x55a2d4e259e0 [08048859] 
-Trace 0x55a2d4e25a60 [0804850d] main
-Trace 0x55a2d4e25b70 [080484b0] 
-Trace 0x55a2d4e25ba0 [080484b6] 
-Trace 0x55a2d4e226e0 [08048410] 
-Trace 0x55a2d4e30620 [08048546] main
-Trace 0x55a2d4e306b0 [0804854e] main
-Trace 0x55a2d4e24940 [08048838] 
-Trace 0x55a2d4e249f0 [08048860] 
-Trace 0x55a2d4e259e0 [08048859] 
-Trace 0x55a2d4e30740 [0804856d] main
-Trace 0x55a2d4e24940 [08048838] 
-Trace 0x55a2d4e249f0 [08048860] 
-Trace 0x55a2d4e259e0 [08048859] 
-Trace 0x55a2d4e307f0 [0804859d] main
-Trace 0x55a2d4e32730 [080486f0] 
-Trace 0x55a2d4e327b0 [080486f9] 
-Trace 0x55a2d4e32830 [08048680] 
-Trace 0x55a2d4e328b0 [080486a9] 
-Trace 0x55a2d4e328f0 [08048704] 
-Trace 0x55a2d4e32ac0 [080489e4] 
-Trace 0x55a2d4e23e10 [08048670] __x86.get_pc_thunk.bx
-Trace 0x55a2d4e32b40 [080489ed] 
+Trace 0x55f342ade560 [08048649] 
+Trace 0x55f342ade660 [08048480] 
+Trace 0x55f342ade690 [08048486] 
+Trace 0x55f342ade6e0 [08048410] 
+Trace 0x55f342adfd80 [08048980] __libc_csu_init
+Trace 0x55f342adfe10 [08048670] __x86.get_pc_thunk.bx
+Trace 0x55f342adfe50 [08048989] __libc_csu_init
+Trace 0x55f342adfee0 [080483e8] 
+Trace 0x55f342adfe10 [08048670] __x86.get_pc_thunk.bx
+Trace 0x55f342adff60 [080483f1] 
+Trace 0x55f342adfff0 [08048406] 
+Trace 0x55f342ae0060 [080489a1] __libc_csu_init
+Trace 0x55f342ae00f0 [080489b0] __libc_csu_init
+Trace 0x55f342ae01a0 [08048710] 
+Trace 0x55f342ae0220 [0804871b] 
+Trace 0x55f342ae0260 [080486b0] 
+Trace 0x55f342ae02e0 [080486e3] 
+Trace 0x55f342ae0320 [080489cb] __libc_csu_init
+Trace 0x55f342ae03b0 [080489d5] __libc_csu_init
+Trace 0x55f342ae08b0 [080484f0] main
+Trace 0x55f342ae0940 [08048838] 
+Trace 0x55f342ae09f0 [08048860] 
+Trace 0x55f342ae0a70 [08048869] 
+Trace 0x55f342ae0af0 [08048460] 
+Trace 0x55f342ae0b20 [08048466] 
+Trace 0x55f342ade6e0 [08048410] 
+Trace 0x55f342ae18d0 [08048875] 
+Trace 0x55f342ae1950 [08048958] 
+Trace 0x55f342ae19e0 [08048859] 
+Trace 0x55f342ae1a60 [0804850d] main
+Trace 0x55f342ae1b70 [080484b0] 
+Trace 0x55f342ae1ba0 [080484b6] 
+Trace 0x55f342ade6e0 [08048410] 
+Trace 0x55f342aee4f0 [08048546] main
+Trace 0x55f342aee580 [080485ba] main
+Trace 0x55f342ae0940 [08048838] 
+Trace 0x55f342ae09f0 [08048860] 
+Trace 0x55f342ae19e0 [08048859] 
+Trace 0x55f342aee610 [080485d9] main
+Trace 0x55f342aee6c0 [08048790] check_magic
+Trace 0x55f342ae0940 [08048838] 
+Trace 0x55f342ae09f0 [08048860] 
+Trace 0x55f342ae19e0 [08048859] 
+Trace 0x55f342aee750 [080487ad] check_magic
+Trace 0x55f342aee830 [08048820] check_magic
+Trace 0x55f342aee8b0 [08048470] 
+Trace 0x55f342aee8e0 [08048476] 
+Trace 0x55f342ade6e0 [08048410] 
+Trace 0x55f342af1650 [0804882d] check_magic
+Trace 0x55f342af16c0 [080485f7] main
+Trace 0x55f342af1740 [080485fe] main
+Trace 0x55f342ae0940 [08048838] 
+Trace 0x55f342ae09f0 [08048860] 
+Trace 0x55f342ae19e0 [08048859] 
+Trace 0x55f342af17d0 [0804861d] main
+Trace 0x55f342aee8b0 [08048470] 
+Trace 0x55f342af1bb0 [0804863d] main

@@ -28,13 +28,16 @@ def trace(binary, argv, input_data, stdin, tracer, trace_log):
     # Run the tracer
     # Case when binary takes input from stdin
     if stdin:
+      print "[+] Binary takes input through stdin"
       in_s, out_s = socket.socketpair()
       p = subprocess32.Popen(args, stdin=in_s, stdout=devnull, stderr=devnull)
       for write in input_data:
         out_s.send(write)
         time.sleep(.01)
+      out_s.close()
     # Case when binary takes input from file
     else:
+      print "[+] Binary takes input as file"
       p = subprocess32.Popen(args, stdin=subprocess32.PIPE, stdout=devnull, stderr=devnull)
       _, _ = p.communicate(input_data)
 
@@ -44,6 +47,7 @@ def trace(binary, argv, input_data, stdin, tracer, trace_log):
     # Check for crash
     ret = p.wait()
     crash = False
+    print "[+] Return value: %d" % ret
     if abs(ret) == signal.SIGSEGV or abs(ret) == signal.SIGILL:
       crash = True
       print "[!] Input caused crash during tracing"
@@ -53,7 +57,7 @@ def trace(binary, argv, input_data, stdin, tracer, trace_log):
     addrs = []
     qemu_base_addr = int(trace_file.split("start_code")[1].split("\n")[0], 16)
     prog = re.compile(r'Trace (.*) \[(?P<addr>.*)\].*')
-    for t in trace.split('\n'):
+    for t in trace_file.split('\n'):
       m = prog.match(t)
       if m != None:
         addr_str = m.group('addr')
@@ -63,7 +67,7 @@ def trace(binary, argv, input_data, stdin, tracer, trace_log):
     
     crash_addr = None
     if crash:
-      crash_addr = int(trace_file.split('\n')[-2].split('[')[1].split(']')[0], 16)
+      crash_addr = trace_file.split('\n')[-2].split('[')[1].split(']')[0]
       print "[+] Crash Addr: %s" % crash_addr
     print "[+] Trace Consists of %d addrs" % len(addrs)
 
@@ -79,7 +83,7 @@ def main():
   input_file = sys.argv[2]
   input_data = None
   stdin = sys.argv[3]
-  if stdin == True:
+  if int(stdin) == 1:
     input_data = []
     try:
       with open(input_file, 'r') as f:
@@ -106,6 +110,7 @@ def main():
 
   # Trace the binary
   print "[+] Tracing binary with input"
+  print input_data
   trace(binary_path, argv, input_data, stdin, trace_path, trace_log)
   print "[+] Tracing Complete"
   return

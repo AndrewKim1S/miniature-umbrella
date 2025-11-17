@@ -13,12 +13,17 @@ try:
 except ImportError:
     raise ImportError("Import Error for shellphish_qemu")
 
+import itertools
+import angr
+from angr.exploration_techniques import CrashMonitor, Oppologist
 
-def trace(binary, argv, input_data, stdin, tracer, trace_log):
+
+# Function for Tracing the target binary
+def trace(binary_path, argv, input_data, stdin, tracer, trace_log):
   # Set arguments for tracer
   args = [tracer]
   args += ["-d", "exec", "-D", trace_log]
-  args += [binary] + list(argv)
+  args += [binary_path] + list(argv)
 
   with open('/dev/null', 'wb') as devnull:
     # Clear and save environment variable QEMU_LD_PREFIX
@@ -65,13 +70,87 @@ def trace(binary, argv, input_data, stdin, tracer, trace_log):
       else:
         continue
     
+    # Find crash_addr
     crash_addr = None
     if crash:
       crash_addr = trace_file.split('\n')[-2].split('[')[1].split(']')[0]
       print "[+] Crash Addr: %s" % crash_addr
-    print "[+] Trace Consists of %d addrs" % len(addrs)
+      crash_addr = int(crash_addr, 16)
+
+    return {'trace': addrs, 'crash': crash, 'crash_addr': crash_addr}
 
 
+# Function for Collecting Constraints
+def collect_constraints(trace, crash, crash_addr, binary_path, input_data, argv):
+  # Check Crash
+  if not crash:
+    print "[!] No crash detected"
+  
+  # Setup angr
+  p = angr.Project(binary_path, exclude_sim_procedures_list=('malloc', 'free', 'calloc', 'realloc'))
+  p.hook_symbol('set_program_name', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
+  p.hook_symbol('setlocale', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
+  p.hook_symbol('bindtextdomain', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
+  p.hook_symbol('textdomain', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
+  p.hook_symbol('posix_fadvise64', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
+  p.hook_symbol('dcgettext', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
+  p.hook_symbol('atexit', angr.SIM_PROCEDURES['libc']['atexit']())
+  prc = angr.SIM_PROCEDURES['stubs']['getopt_long']()
+  prc._ret_seq = [ord('d'), -1]
+  prc._ret_c = itertools.count()
+  prc.optind_addr = 0x080571b4
+  p.hook_symbol('getopt_long', prc)
+
+  target_opts = [binary_path] + argv
+  
+  # TODO When the input to the program is a file
+  # content = {'input_file': ...}
+  #content = {'stdin': "\n".join(input_data)}
+  content = InputDict({'stdin': "\n".join(input_data)})
+  state1 = p.factory.tracer_state(input_content=content, preconstrain_input=True, args=target_opts)
+
+  crashing_block = p.factory.block(crash_addr)
+  collected_constraints = []
+  offending_constraints = []
+
+  def inspect_func(state):
+    sc = state.added
+    if not state.satisfiable() or len(sc) == 0:
+      return
+
+    if state.addr in [0x8049554, 0x804955a, 0x9067084]:
+      return
+
+    if state.addr in crashing_block.instruction_addrs:
+      return
+
+    if state.addr in [0x804b32d]:
+      # TODO Add to offending constraints?
+      return
+
+    # TODO check if constraint was transformed?
+    collected_constraints.extend(sc)
+    
+    print "[+] Constraint at: ", hex(state.addr)
+    print "[+] Constraint expression: %s", sc
+
+  state1.inspect.b('constraints', when=angr.BP_AFTER, action=inspect_func)
+  simgr = p.factory.simgr(state1, save_unsat=False, hierarchy=False, save_unconstrained=False)
+  t = angr.exploration_techniques.Tracer(trace=trace)
+  
+  print("\n==================== PRINTING TRACE ====================")
+  for addr in trace: 
+    block = p.factory.block(addr)
+    print("Block @ {}",format(hex(addr)))
+    block.pp()  # pretty-print disassembly
+  print("========================================================\n")
+
+  simgr.use_technique(t)
+  simgr.use_technique(angr.exploration_techniques.Oppologist())
+  simgr.run()
+
+
+# main
 def main():
   # Check args
   if len(sys.argv) < 3:
@@ -111,8 +190,13 @@ def main():
   # Trace the binary
   print "[+] Tracing binary with input"
   print input_data
-  trace(binary_path, argv, input_data, stdin, trace_path, trace_log)
+  trace_results = trace(binary_path, argv, input_data, stdin, trace_path, trace_log)
   print "[+] Tracing Complete"
+
+  # Collect Constraints
+  print "[+] Collect Constraints from binary"
+  collect_constraints(trace_results['trace'], trace_results['crash'], trace_results['crash_addr'], binary_path, input_data, argv)
+  print "[+] Collect Constrints Complete"
   return
 
 

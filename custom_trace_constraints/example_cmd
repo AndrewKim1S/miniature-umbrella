@@ -1,0 +1,1 @@
+./crash_trace_constraints <target_binary> <input> <0 file arg, 1 stdin> linux-i386 <trace log>

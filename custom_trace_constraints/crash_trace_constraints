@@ -87,6 +87,8 @@ def trace(binary_path, argv, input_data, stdin, tracer, trace_log):
     return {'trace': addrs, 'crash': crash, 'crash_addr': crash_addr}
 
 
+num_constraints = 0
+
 # Function for Collecting Constraints
 def collect_constraints(trace, crash, crash_addr, binary_path, input_data, argv):
   # Check Crash
@@ -120,6 +122,7 @@ def collect_constraints(trace, crash, crash_addr, binary_path, input_data, argv)
   offending_constraints = []
 
   def inspect_func(state):
+    global num_constraints
     sc = state.added
     if not state.satisfiable() or len(sc) == 0:
       return
@@ -138,22 +141,23 @@ def collect_constraints(trace, crash, crash_addr, binary_path, input_data, argv)
     collected_constraints.extend(sc)
     
     print "[+] Constraint at: ", hex(state.addr)
-    print "[+] Constraint expression: %s", sc
+    print "[+] Constraint expression: \n", sc
+    num_constraints += 1
 
   state1.inspect.b('constraints', when=angr.BP_AFTER, action=inspect_func)
   simgr = p.factory.simgr(state1, save_unsat=False, hierarchy=False, save_unconstrained=False)
   t = angr.exploration_techniques.Tracer(trace=trace)
   
-  print("\n==================== PRINTING TRACE ====================")
+  print("\n==================== PRINTING TRACE ====================\n")
   for addr in trace: 
     block = p.factory.block(addr)
     print("Block @ {}",format(hex(addr)))
     block.pp()  # pretty-print disassembly
-  print("========================================================\n")
-
+  print("\n================== PRINTING CONSTRAINTS ================\n")
   simgr.use_technique(t)
   simgr.use_technique(angr.exploration_techniques.Oppologist())
   simgr.run()
+  print "\nTotal Number of Constraints: ", num_constraints
 
 
 # main

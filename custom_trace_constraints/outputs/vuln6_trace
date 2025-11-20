@@ -1,0 +1,114 @@
+Reserved 0xf7000000 bytes of guest address space
+host mmap_min_addr=0x10000
+guest_base  0x7fbe34070000
+start    end      size     prot
+08048000-08049000 00001000 r-x
+0804a000-0804c000 00002000 rw-
+f67da000-f67fd000 00023000 r-x
+f67fd000-f67ff000 00002000 rw-
+f67ff000-f6800000 00001000 ---
+f6800000-f7000000 00800000 rw-
+start_brk   0x00000000
+end_code    0x08048f44
+start_code  0x08048000
+start_data  0x0804af08
+end_data    0x0804b054
+start_stack 0xf6fff5e0
+brk         0x0804b104
+entry       0xf67daa20
+Trace 0x5645af4dc8a0 [08048998] 
+Trace 0x5645af4dc9a0 [08048560] 
+Trace 0x5645af4dc9d0 [08048566] 
+Trace 0x5645af4dca20 [080484d0] 
+Trace 0x5645af4de0c0 [08048cd0] __libc_csu_init
+Trace 0x5645af4de150 [080489c0] __x86.get_pc_thunk.bx
+Trace 0x5645af4de190 [08048cd9] __libc_csu_init
+Trace 0x5645af4de220 [080484a4] 
+Trace 0x5645af4de150 [080489c0] __x86.get_pc_thunk.bx
+Trace 0x5645af4de2a0 [080484ad] 
+Trace 0x5645af4de330 [080484c2] 
+Trace 0x5645af4de3a0 [08048cf1] __libc_csu_init
+Trace 0x5645af4de430 [08048d00] __libc_csu_init
+Trace 0x5645af4de4e0 [08048a60] 
+Trace 0x5645af4de560 [08048a6b] 
+Trace 0x5645af4de5a0 [08048a00] 
+Trace 0x5645af4de620 [08048a33] 
+Trace 0x5645af4de660 [08048d1b] __libc_csu_init
+Trace 0x5645af4de6f0 [08048d25] __libc_csu_init
+Trace 0x5645af4debf0 [080485f0] main
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dedb0 [08048bb9] 
+Trace 0x5645af4dee30 [08048540] 
+Trace 0x5645af4dee60 [08048546] 
+Trace 0x5645af4dca20 [080484d0] 
+Trace 0x5645af4dfc10 [08048bc5] 
+Trace 0x5645af4dfc90 [08048ca8] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4dfda0 [0804860d] main
+Trace 0x5645af4dfee0 [08048640] main
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4dff70 [0804865d] main
+Trace 0x5645af4e0040 [08048580] 
+Trace 0x5645af4e0070 [08048586] 
+Trace 0x5645af4dca20 [080484d0] 
+Trace 0x5645af4e83d0 [08048683] main
+Trace 0x5645af4e8480 [08048500] 
+Trace 0x5645af4e84b0 [08048506] 
+Trace 0x5645af4dca20 [080484d0] 
+Trace 0x5645af4ece90 [08048692] main
+Trace 0x5645af4ecf10 [0804869d] main
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4ecfa0 [080486bd] main
+Trace 0x5645af4ed060 [080486df] main
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4ed0f0 [080486fd] main
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4ed1a0 [0804872d] main
+Trace 0x5645af4ed2b0 [08048750] main
+Trace 0x5645af4ed2b0 [08048750] main
+Trace 0x5645af4ed2b0 [08048750] main
+Trace 0x5645af4ed2b0 [08048750] main
+Trace 0x5645af4ed370 [0804876d] main
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4ed400 [0804878d] main
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4ed4b0 [080487bd] main
+Trace 0x5645af4ed5a0 [080485c0] 
+Trace 0x5645af4ed5d0 [080485c6] 
+Trace 0x5645af4dca20 [080484d0] 
+Trace 0x5645af4ee890 [080487e6] main
+Trace 0x5645af4ee910 [08048510] 
+Trace 0x5645af4ee940 [08048516] 
+Trace 0x5645af4dca20 [080484d0] 
+Trace 0x5645af4f2900 [080487f1] main
+Trace 0x5645af4f2960 [08048ae0] check_magic
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4f29f0 [08048afd] check_magic
+Trace 0x5645af4f2ad0 [08048b70] check_magic
+Trace 0x5645af4f2b50 [08048550] 
+Trace 0x5645af4f2b80 [08048556] 
+Trace 0x5645af4dca20 [080484d0] 
+Trace 0x5645af4f57c0 [08048b7d] check_magic
+Trace 0x5645af4f5830 [080487f9] main
+Trace 0x5645af4f58b0 [080488b5] main
+Trace 0x5645af4dec80 [08048b88] 
+Trace 0x5645af4ded30 [08048bb0] 
+Trace 0x5645af4dfd20 [08048ba9] 
+Trace 0x5645af4f5940 [080488d5] main
+Trace 0x5645af4f2b50 [08048550] 
+Trace 0x5645af4f5d20 [080488f5] main

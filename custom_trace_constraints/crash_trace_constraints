@@ -1,5 +1,12 @@
 #!/usr/bin/env python
 
+# STATUS
+# qemu based trace works
+# collect constraints are in progress
+# NOTES 
+# angr has fundamental limitation with stdin inputs, thus all target binaries must only
+# take input from files
+
 import sys
 import os
 import time
@@ -32,7 +39,7 @@ def trace(binary_path, argv, input_data, stdin, tracer, trace_log):
 
     # Run the tracer
     # Case when binary takes input from stdin
-    if stdin:
+    if int(stdin) == 1:
       print "[+] Binary takes input through stdin"
       in_s, out_s = socket.socketpair()
       p = subprocess32.Popen(args, stdin=in_s, stdout=devnull, stderr=devnull)
@@ -103,10 +110,9 @@ def collect_constraints(trace, crash, crash_addr, binary_path, input_data, argv)
 
   target_opts = [binary_path] + argv
   
-  # TODO When the input to the program is a file
-  # content = {'input_file': ...}
+  # NOTE stdin does not work in angr
+  content = {'input_file': input_data}
   #content = {'stdin': "\n".join(input_data)}
-  content = InputDict({'stdin': "\n".join(input_data)})
   state1 = p.factory.tracer_state(input_content=content, preconstrain_input=True, args=target_opts)
 
   crashing_block = p.factory.block(crash_addr)
@@ -162,6 +168,7 @@ def main():
   input_file = sys.argv[2]
   input_data = None
   stdin = sys.argv[3]
+  argv = []
   if int(stdin) == 1:
     input_data = []
     try:
@@ -173,7 +180,8 @@ def main():
       sys.exit(1)
   else:
     input_data = input_file
-        
+    argv += [input_file] 
+    
   # tracer 
   # x86 arch, 64 bit -> linux-x86_64
   # x86 arch, 32 bit -> linux-i386
@@ -184,8 +192,6 @@ def main():
     sys.exit(1)
   trace_log = sys.argv[5]
 
-  # For now this is set to empty
-  argv = []
 
   # Trace the binary
   print "[+] Tracing binary with input"

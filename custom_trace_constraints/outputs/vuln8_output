@@ -1,0 +1,585 @@
+[+] Tracing binary with input
+inputs/vuln8_crash_input
+[+] Binary takes input as file
+[+] Return value: -11
+[!] Input caused crash during tracing
+[+] Crash Addr: 08048c4d
+[+] Tracing Complete
+[+] Collect Constraints from binary
+
+==================== PRINTING TRACE ====================
+
+('Block @ {}', '0x8048c59')
+0x8048c59:	xor	ebp, ebp
+0x8048c5b:	pop	esi
+0x8048c5c:	mov	ecx, esp
+0x8048c5e:	and	esp, 0xfffffff0
+0x8048c61:	push	eax
+0x8048c62:	push	esp
+0x8048c63:	push	edx
+0x8048c64:	push	0x8048ef0
+0x8048c69:	push	0x8048e90
+0x8048c6e:	push	ecx
+0x8048c6f:	push	esi
+0x8048c70:	push	0x80485e0
+0x8048c75:	call	0x8048560
+('Block @ {}', '0x8048560')
+0x8048560:	jmp	dword ptr [0x804b030]
+('Block @ {}', '0x8048566')
+0x8048566:	push	0x48
+0x804856b:	jmp	0x80484c0
+('Block @ {}', '0x80484c0')
+0x80484c0:	push	dword ptr [0x804b004]
+0x80484c6:	jmp	dword ptr [0x804b008]
+('Block @ {}', '0x8048e90')
+0x8048e90:	push	ebp
+0x8048e91:	push	edi
+0x8048e92:	push	esi
+0x8048e93:	push	ebx
+0x8048e94:	call	0x8048c80
+('Block @ {}', '0x8048c80')
+0x8048c80:	mov	ebx, dword ptr [esp]
+0x8048c83:	ret	
+('Block @ {}', '0x8048e99')
+0x8048e99:	add	ebx, 0x2167
+0x8048e9f:	sub	esp, 0xc
+0x8048ea2:	mov	ebp, dword ptr [esp + 0x20]
+0x8048ea6:	lea	esi, dword ptr [ebx - 0xf4]
+0x8048eac:	call	0x804849c
+('Block @ {}', '0x804849c')
+0x804849c:	push	ebx
+0x804849d:	sub	esp, 8
+0x80484a0:	call	0x8048c80
+('Block @ {}', '0x8048c80')
+0x8048c80:	mov	ebx, dword ptr [esp]
+0x8048c83:	ret	
+('Block @ {}', '0x80484a5')
+0x80484a5:	add	ebx, 0x2b5b
+0x80484ab:	mov	eax, dword ptr [ebx - 4]
+0x80484b1:	test	eax, eax
+0x80484b3:	je	0x80484ba
+('Block @ {}', '0x80484ba')
+0x80484ba:	add	esp, 8
+0x80484bd:	pop	ebx
+0x80484be:	ret	
+('Block @ {}', '0x8048eb1')
+0x8048eb1:	lea	eax, dword ptr [ebx - 0xf8]
+0x8048eb7:	sub	esi, eax
+0x8048eb9:	sar	esi, 2
+0x8048ebc:	test	esi, esi
+0x8048ebe:	je	0x8048ee5
+('Block @ {}', '0x8048ec0')
+0x8048ec0:	xor	edi, edi
+0x8048ec2:	lea	esi, dword ptr [esi]
+0x8048ec8:	sub	esp, 4
+0x8048ecb:	push	dword ptr [esp + 0x2c]
+0x8048ecf:	push	dword ptr [esp + 0x2c]
+0x8048ed3:	push	ebp
+0x8048ed4:	call	dword ptr [ebx + edi*4 - 0xf8]
+('Block @ {}', '0x8048d20')
+0x8048d20:	mov	eax, 0x804af10
+0x8048d25:	mov	edx, dword ptr [eax]
+0x8048d27:	test	edx, edx
+0x8048d29:	jne	0x8048d30
+('Block @ {}', '0x8048d2b')
+0x8048d2b:	jmp	0x8048cc0
+('Block @ {}', '0x8048cc0')
+0x8048cc0:	mov	eax, 0x804b054
+0x8048cc5:	sub	eax, 0x804b054
+0x8048cca:	sar	eax, 2
+0x8048ccd:	mov	edx, eax
+0x8048ccf:	shr	edx, 0x1f
+0x8048cd2:	add	eax, edx
+0x8048cd4:	sar	eax, 1
+0x8048cd6:	je	0x8048cf3
+('Block @ {}', '0x8048cf3')
+0x8048cf3:	ret	
+('Block @ {}', '0x8048edb')
+0x8048edb:	add	edi, 1
+0x8048ede:	add	esp, 0x10
+0x8048ee1:	cmp	edi, esi
+0x8048ee3:	jne	0x8048ec8
+('Block @ {}', '0x8048ee5')
+0x8048ee5:	add	esp, 0xc
+0x8048ee8:	pop	ebx
+0x8048ee9:	pop	esi
+0x8048eea:	pop	edi
+0x8048eeb:	pop	ebp
+0x8048eec:	ret	
+('Block @ {}', '0x80485e0')
+0x80485e0:	lea	esp, dword ptr [esp - 0x10]
+0x80485e4:	mov	dword ptr [esp], edi
+0x80485e7:	mov	dword ptr [esp + 4], edx
+0x80485eb:	mov	dword ptr [esp + 8], ecx
+0x80485ef:	mov	dword ptr [esp + 0xc], eax
+0x80485f3:	mov	ecx, 0x29a6
+0x80485f8:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d81')
+0x8048d81:	push	eax
+0x8048d82:	push	ecx
+0x8048d83:	push	0x8048e7d
+0x8048d88:	call	0x8048540
+('Block @ {}', '0x8048540')
+0x8048540:	jmp	dword ptr [0x804b028]
+('Block @ {}', '0x8048546')
+0x8048546:	push	0x38
+0x804854b:	jmp	0x80484c0
+('Block @ {}', '0x80484c0')
+0x80484c0:	push	dword ptr [0x804b004]
+0x80484c6:	jmp	dword ptr [0x804b008]
+('Block @ {}', '0x8048d8d')
+0x8048d8d:	add	esp, 4
+0x8048d90:	test	eax, eax
+0x8048d92:	je	0x8048e70
+('Block @ {}', '0x8048e70')
+0x8048e70:	inc	byte ptr [0x804b100]
+0x8048e76:	pop	ecx
+0x8048e77:	pop	eax
+0x8048e78:	jmp	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x80485fd')
+0x80485fd:	mov	eax, dword ptr [esp + 0xc]
+0x8048601:	mov	ecx, dword ptr [esp + 8]
+0x8048605:	mov	edx, dword ptr [esp + 4]
+0x8048609:	mov	edi, dword ptr [esp]
+0x804860c:	lea	esp, dword ptr [esp + 0x10]
+0x8048610:	lea	ecx, dword ptr [esp + 4]
+0x8048614:	and	esp, 0xfffffff0
+0x8048617:	push	dword ptr [ecx - 4]
+0x804861a:	push	ebp
+0x804861b:	mov	ebp, esp
+0x804861d:	push	esi
+0x804861e:	push	ebx
+0x804861f:	push	ecx
+0x8048620:	sub	esp, 0x1c
+0x8048623:	cmp	dword ptr [ecx], 1
+0x8048626:	mov	eax, dword ptr [ecx + 4]
+0x8048629:	jle	0x80489c3
+('Block @ {}', '0x804862f')
+0x804862f:	nop	
+0x8048630:	lea	esp, dword ptr [esp - 0x10]
+0x8048634:	mov	dword ptr [esp], edi
+0x8048637:	mov	dword ptr [esp + 4], edx
+0x804863b:	mov	dword ptr [esp + 8], ecx
+0x804863f:	mov	dword ptr [esp + 0xc], eax
+0x8048643:	mov	ecx, 0x39d9
+0x8048648:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x804864d')
+0x804864d:	mov	eax, dword ptr [esp + 0xc]
+0x8048651:	mov	ecx, dword ptr [esp + 8]
+0x8048655:	mov	edx, dword ptr [esp + 4]
+0x8048659:	mov	edi, dword ptr [esp]
+0x804865c:	lea	esp, dword ptr [esp + 0x10]
+0x8048660:	sub	esp, 8
+0x8048663:	push	0x8048f22
+0x8048668:	push	dword ptr [eax + 4]
+0x804866b:	call	0x8048580
+('Block @ {}', '0x8048580')
+0x8048580:	jmp	dword ptr [0x804b038]
+('Block @ {}', '0x8048586')
+0x8048586:	push	0x58
+0x804858b:	jmp	0x80484c0
+('Block @ {}', '0x80484c0')
+0x80484c0:	push	dword ptr [0x804b004]
+0x80484c6:	jmp	dword ptr [0x804b008]
+('Block @ {}', '0x8048670')
+0x8048670:	add	esp, 0x10
+0x8048673:	test	eax, eax
+0x8048675:	mov	ebx, eax
+0x8048677:	je	0x8048a5a
+('Block @ {}', '0x804867d')
+0x804867d:	lea	esi, dword ptr [esi]
+0x8048680:	lea	esp, dword ptr [esp - 0x10]
+0x8048684:	mov	dword ptr [esp], edi
+0x8048687:	mov	dword ptr [esp + 4], edx
+0x804868b:	mov	dword ptr [esp + 8], ecx
+0x804868f:	mov	dword ptr [esp + 0xc], eax
+0x8048693:	mov	ecx, 0x4087
+0x8048698:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x804869d')
+0x804869d:	mov	eax, dword ptr [esp + 0xc]
+0x80486a1:	mov	ecx, dword ptr [esp + 8]
+0x80486a5:	mov	edx, dword ptr [esp + 4]
+0x80486a9:	mov	edi, dword ptr [esp]
+0x80486ac:	lea	esp, dword ptr [esp + 0x10]
+0x80486b0:	lea	edx, dword ptr [ebp - 0x20]
+0x80486b3:	push	eax
+0x80486b4:	push	8
+0x80486b6:	push	1
+0x80486b8:	push	edx
+0x80486b9:	call	0x8048530
+('Block @ {}', '0x8048530')
+0x8048530:	jmp	dword ptr [0x804b024]
+('Block @ {}', '0x8048536')
+0x8048536:	push	0x30
+0x804853b:	jmp	0x80484c0
+('Block @ {}', '0x80484c0')
+0x80484c0:	push	dword ptr [0x804b004]
+0x80484c6:	jmp	dword ptr [0x804b008]
+('Block @ {}', '0x80486be')
+0x80486be:	mov	esi, eax
+0x80486c0:	mov	dword ptr [esp], ebx
+0x80486c3:	call	0x80484f0
+('Block @ {}', '0x80484f0')
+0x80484f0:	jmp	dword ptr [0x804b014]
+('Block @ {}', '0x80484f6')
+0x80484f6:	push	0x10
+0x80484fb:	jmp	0x80484c0
+('Block @ {}', '0x80484c0')
+0x80484c0:	push	dword ptr [0x804b004]
+0x80484c6:	jmp	dword ptr [0x804b008]
+('Block @ {}', '0x80486c8')
+0x80486c8:	add	esp, 0x10
+0x80486cb:	cmp	esi, 7
+0x80486ce:	jbe	0x8048a10
+('Block @ {}', '0x80486d4')
+0x80486d4:	lea	esp, dword ptr [esp - 0x10]
+0x80486d8:	mov	dword ptr [esp], edi
+0x80486db:	mov	dword ptr [esp + 4], edx
+0x80486df:	mov	dword ptr [esp + 8], ecx
+0x80486e3:	mov	dword ptr [esp + 0xc], eax
+0x80486e7:	mov	ecx, 0x91f2
+0x80486ec:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x80486f1')
+0x80486f1:	mov	eax, dword ptr [esp + 0xc]
+0x80486f5:	mov	ecx, dword ptr [esp + 8]
+0x80486f9:	mov	edx, dword ptr [esp + 4]
+0x80486fd:	mov	edi, dword ptr [esp]
+0x8048700:	lea	esp, dword ptr [esp + 0x10]
+0x8048704:	cmp	byte ptr [ebp - 0x20], 0x41
+0x8048708:	je	0x804878f
+('Block @ {}', '0x804878f')
+0x804878f:	nop	
+0x8048790:	lea	esp, dword ptr [esp - 0x10]
+0x8048794:	mov	dword ptr [esp], edi
+0x8048797:	mov	dword ptr [esp + 4], edx
+0x804879b:	mov	dword ptr [esp + 8], ecx
+0x804879f:	mov	dword ptr [esp + 0xc], eax
+0x80487a3:	mov	ecx, 0x3444
+0x80487a8:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x80487ad')
+0x80487ad:	mov	eax, dword ptr [esp + 0xc]
+0x80487b1:	mov	ecx, dword ptr [esp + 8]
+0x80487b5:	mov	edx, dword ptr [esp + 4]
+0x80487b9:	mov	edi, dword ptr [esp]
+0x80487bc:	lea	esp, dword ptr [esp + 0x10]
+0x80487c0:	cmp	byte ptr [ebp - 0x1f], 0x42
+0x80487c4:	jne	0x804897b
+('Block @ {}', '0x80487ca')
+0x80487ca:	nop	
+0x80487cc:	lea	esp, dword ptr [esp - 0x10]
+0x80487d0:	mov	dword ptr [esp], edi
+0x80487d3:	mov	dword ptr [esp + 4], edx
+0x80487d7:	mov	dword ptr [esp + 8], ecx
+0x80487db:	mov	dword ptr [esp + 0xc], eax
+0x80487df:	mov	ecx, 0xc069
+0x80487e4:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x80487e9')
+0x80487e9:	mov	eax, dword ptr [esp + 0xc]
+0x80487ed:	mov	ecx, dword ptr [esp + 8]
+0x80487f1:	mov	edx, dword ptr [esp + 4]
+0x80487f5:	mov	edi, dword ptr [esp]
+0x80487f8:	lea	esp, dword ptr [esp + 0x10]
+0x80487fc:	cmp	byte ptr [ebp - 0x1e], 0x43
+0x8048800:	jne	0x8048aa6
+('Block @ {}', '0x8048806')
+0x8048806:	nop	
+0x8048808:	lea	esp, dword ptr [esp - 0x10]
+0x804880c:	mov	dword ptr [esp], edi
+0x804880f:	mov	dword ptr [esp + 4], edx
+0x8048813:	mov	dword ptr [esp + 8], ecx
+0x8048817:	mov	dword ptr [esp + 0xc], eax
+0x804881b:	mov	ecx, 0x6ab9
+0x8048820:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x8048825')
+0x8048825:	mov	eax, dword ptr [esp + 0xc]
+0x8048829:	mov	ecx, dword ptr [esp + 8]
+0x804882d:	mov	edx, dword ptr [esp + 4]
+0x8048831:	mov	edi, dword ptr [esp]
+0x8048834:	lea	esp, dword ptr [esp + 0x10]
+0x8048838:	cmp	byte ptr [ebp - 0x1d], 0x44
+0x804883c:	jne	0x8048b37
+('Block @ {}', '0x8048842')
+0x8048842:	nop	
+0x8048844:	lea	esp, dword ptr [esp - 0x10]
+0x8048848:	mov	dword ptr [esp], edi
+0x804884b:	mov	dword ptr [esp + 4], edx
+0x804884f:	mov	dword ptr [esp + 8], ecx
+0x8048853:	mov	dword ptr [esp + 0xc], eax
+0x8048857:	mov	ecx, 0x4833
+0x804885c:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x8048861')
+0x8048861:	mov	eax, dword ptr [esp + 0xc]
+0x8048865:	mov	ecx, dword ptr [esp + 8]
+0x8048869:	mov	edx, dword ptr [esp + 4]
+0x804886d:	mov	edi, dword ptr [esp]
+0x8048870:	lea	esp, dword ptr [esp + 0x10]
+0x8048874:	cmp	byte ptr [ebp - 0x1c], 0x45
+0x8048878:	jne	0x8048aef
+('Block @ {}', '0x804887e')
+0x804887e:	nop	
+0x8048880:	lea	esp, dword ptr [esp - 0x10]
+0x8048884:	mov	dword ptr [esp], edi
+0x8048887:	mov	dword ptr [esp + 4], edx
+0x804888b:	mov	dword ptr [esp + 8], ecx
+0x804888f:	mov	dword ptr [esp + 0xc], eax
+0x8048893:	mov	ecx, 0xd7ca
+0x8048898:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x804889d')
+0x804889d:	mov	eax, dword ptr [esp + 0xc]
+0x80488a1:	mov	ecx, dword ptr [esp + 8]
+0x80488a5:	mov	edx, dword ptr [esp + 4]
+0x80488a9:	mov	edi, dword ptr [esp]
+0x80488ac:	lea	esp, dword ptr [esp + 0x10]
+0x80488b0:	cmp	byte ptr [ebp - 0x1b], 0x46
+0x80488b4:	jne	0x8048b7f
+('Block @ {}', '0x80488ba')
+0x80488ba:	nop	
+0x80488bc:	lea	esp, dword ptr [esp - 0x10]
+0x80488c0:	mov	dword ptr [esp], edi
+0x80488c3:	mov	dword ptr [esp + 4], edx
+0x80488c7:	mov	dword ptr [esp + 8], ecx
+0x80488cb:	mov	dword ptr [esp + 0xc], eax
+0x80488cf:	mov	ecx, 0xa373
+0x80488d4:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x80488d9')
+0x80488d9:	mov	eax, dword ptr [esp + 0xc]
+0x80488dd:	mov	ecx, dword ptr [esp + 8]
+0x80488e1:	mov	edx, dword ptr [esp + 4]
+0x80488e5:	mov	edi, dword ptr [esp]
+0x80488e8:	lea	esp, dword ptr [esp + 0x10]
+0x80488ec:	cmp	byte ptr [ebp - 0x1a], 0x47
+0x80488f0:	jne	0x8048bc7
+('Block @ {}', '0x80488f6')
+0x80488f6:	nop	
+0x80488f8:	lea	esp, dword ptr [esp - 0x10]
+0x80488fc:	mov	dword ptr [esp], edi
+0x80488ff:	mov	dword ptr [esp + 4], edx
+0x8048903:	mov	dword ptr [esp + 8], ecx
+0x8048907:	mov	dword ptr [esp + 0xc], eax
+0x804890b:	mov	ecx, 0x880b
+0x8048910:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x8048915')
+0x8048915:	mov	eax, dword ptr [esp + 0xc]
+0x8048919:	mov	ecx, dword ptr [esp + 8]
+0x804891d:	mov	edx, dword ptr [esp + 4]
+0x8048921:	mov	edi, dword ptr [esp]
+0x8048924:	lea	esp, dword ptr [esp + 0x10]
+0x8048928:	cmp	byte ptr [ebp - 0x19], 0x48
+0x804892c:	je	0x8048c0f
+('Block @ {}', '0x8048c0f')
+0x8048c0f:	nop	
+0x8048c10:	lea	esp, dword ptr [esp - 0x10]
+0x8048c14:	mov	dword ptr [esp], edi
+0x8048c17:	mov	dword ptr [esp + 4], edx
+0x8048c1b:	mov	dword ptr [esp + 8], ecx
+0x8048c1f:	mov	dword ptr [esp + 0xc], eax
+0x8048c23:	mov	ecx, 0xaedb
+0x8048c28:	call	0x8048d50
+('Block @ {}', '0x8048d50')
+0x8048d50:	lahf	
+0x8048d51:	seto	al
+0x8048d54:	mov	edx, dword ptr [0x804b080]
+0x8048d5a:	test	edx, edx
+0x8048d5c:	je	0x8048d78
+('Block @ {}', '0x8048d78')
+0x8048d78:	cmp	byte ptr [0x804b100], 0
+0x8048d7f:	jne	0x8048d71
+('Block @ {}', '0x8048d71')
+0x8048d71:	add	al, 0x7f
+0x8048d73:	sahf	
+0x8048d74:	ret	
+('Block @ {}', '0x8048c2d')
+0x8048c2d:	mov	eax, dword ptr [esp + 0xc]
+0x8048c31:	mov	ecx, dword ptr [esp + 8]
+0x8048c35:	mov	edx, dword ptr [esp + 4]
+0x8048c39:	mov	edi, dword ptr [esp]
+0x8048c3c:	lea	esp, dword ptr [esp + 0x10]
+0x8048c40:	sub	esp, 0xc
+0x8048c43:	push	0x8048f3b
+0x8048c48:	call	0x8048550
+('Block @ {}', '0x8048550')
+0x8048550:	jmp	dword ptr [0x804b02c]
+('Block @ {}', '0x8048556')
+0x8048556:	push	0x40
+0x804855b:	jmp	0x80484c0
+('Block @ {}', '0x80484c0')
+0x80484c0:	push	dword ptr [0x804b004]
+0x80484c6:	jmp	dword ptr [0x804b008]
+('Block @ {}', '0x8048c4d')
+0x8048c4d:	mov	dword ptr [0], 0
+
+================== PRINTING CONSTRAINTS ================
+
+[+] Constraint at:  0xc000000
+[+] Constraint expression: 
+(<Bool True>,)
+[+] Constraint at:  0x8048708
+[+] Constraint expression: 
+(<Bool file_inputs/vuln8_crash_input_9_0_0_8 == 65>,)
+[+] Constraint at:  0x80487c4
+[+] Constraint expression: 
+(<Bool file_inputs/vuln8_crash_input_9_1_1_8 == 66>,)
+[+] Constraint at:  0x8048800
+[+] Constraint expression: 
+(<Bool file_inputs/vuln8_crash_input_9_2_2_8 == 67>,)
+[+] Constraint at:  0x804883c
+[+] Constraint expression: 
+(<Bool file_inputs/vuln8_crash_input_9_3_3_8 == 68>,)
+[+] Constraint at:  0x8048878
+[+] Constraint expression: 
+(<Bool file_inputs/vuln8_crash_input_9_4_4_8 == 69>,)
+[+] Constraint at:  0x80488b4
+[+] Constraint expression: 
+(<Bool file_inputs/vuln8_crash_input_9_5_5_8 == 70>,)
+[+] Constraint at:  0x80488f0
+[+] Constraint expression: 
+(<Bool file_inputs/vuln8_crash_input_9_6_6_8 == 71>,)
+[+] Constraint at:  0x804892c
+[+] Constraint expression: 
+(<Bool file_inputs/vuln8_crash_input_9_7_7_8 == 72>,)
+
+Total Number of Constraints:  9
+[+] Collect Constrints Complete

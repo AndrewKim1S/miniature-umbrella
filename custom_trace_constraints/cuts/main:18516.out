@@ -1,0 +1,278 @@
+[+] Tracing binary with input
+real_world_poc/CVE-2017-7209/bug_1.o
+[+] Binary takes input as file
+[+] Return value: -11
+[!] Input caused crash during tracing
+[+] Crash Addr: 00000000004024fa
+[+] Tracing Complete
+[+] Collect Constraints from binary
+
+==================== PRINTING TRACE ====================
+
+('Block @ {}', '0x402510')
+0x402510:	xor	ebp, ebp
+0x402512:	mov	r9, rdx
+0x402515:	pop	rsi
+0x402516:	mov	rdx, rsp
+0x402519:	and	rsp, 0xfffffffffffffff0
+0x40251d:	push	rax
+0x40251e:	push	rsp
+0x40251f:	mov	r8, 0x59fe90
+0x402526:	mov	rcx, 0x59fe20
+0x40252d:	mov	rdi, 0x402480
+0x402534:	call	0x401640
+('Block @ {}', '0x401640')
+0x401640:	jmp	qword ptr [rip + 0x3ddaea]
+('Block @ {}', '0x401646')
+0x401646:	push	0x23
+0x40164b:	jmp	0x401400
+('Block @ {}', '0x401400')
+0x401400:	push	qword ptr [rip + 0x3ddc02]
+0x401406:	jmp	qword ptr [rip + 0x3ddc04]
+('Block @ {}', '0x59fe20')
+0x59fe20:	push	r15
+0x59fe22:	push	r14
+0x59fe24:	mov	r15d, edi
+0x59fe27:	push	r13
+0x59fe29:	push	r12
+0x59fe2b:	lea	r12, qword ptr [rip + 0x23efde]
+0x59fe32:	push	rbp
+0x59fe33:	lea	rbp, qword ptr [rip + 0x23efde]
+0x59fe3a:	push	rbx
+0x59fe3b:	mov	r14, rsi
+0x59fe3e:	mov	r13, rdx
+0x59fe41:	sub	rbp, r12
+0x59fe44:	sub	rsp, 8
+0x59fe48:	sar	rbp, 3
+0x59fe4c:	call	0x4013e0
+('Block @ {}', '0x4013e0')
+0x4013e0:	sub	rsp, 8
+0x4013e4:	mov	rax, qword ptr [rip + 0x3ddc0d]
+0x4013eb:	test	rax, rax
+0x4013ee:	je	0x4013f5
+('Block @ {}', '0x4013f5')
+0x4013f5:	add	rsp, 8
+0x4013f9:	ret	
+('Block @ {}', '0x59fe51')
+0x59fe51:	test	rbp, rbp
+0x59fe54:	je	0x59fe76
+('Block @ {}', '0x59fe56')
+0x59fe56:	xor	ebx, ebx
+0x59fe58:	nop	dword ptr [rax + rax]
+0x59fe60:	mov	rdx, r13
+0x59fe63:	mov	rsi, r14
+0x59fe66:	mov	edi, r15d
+0x59fe69:	call	qword ptr [r12 + rbx*8]
+('Block @ {}', '0x4025e0')
+0x4025e0:	mov	edi, 0x7dee20
+0x4025e5:	cmp	qword ptr [rdi], 0
+0x4025e9:	jne	0x4025f0
+('Block @ {}', '0x4025eb')
+0x4025eb:	jmp	0x402580
+('Block @ {}', '0x402580')
+0x402580:	mov	esi, 0x7e0cd0
+0x402585:	push	rbp
+0x402586:	sub	rsi, 0x7e0cd0
+0x40258d:	sar	rsi, 3
+0x402591:	mov	rbp, rsp
+0x402594:	mov	rax, rsi
+0x402597:	shr	rax, 0x3f
+0x40259b:	add	rsi, rax
+0x40259e:	sar	rsi, 1
+0x4025a1:	je	0x4025b8
+('Block @ {}', '0x4025b8')
+0x4025b8:	pop	rbp
+0x4025b9:	ret	
+('Block @ {}', '0x59fe6d')
+0x59fe6d:	add	rbx, 1
+0x59fe71:	cmp	rbx, rbp
+0x59fe74:	jne	0x59fe60
+('Block @ {}', '0x59fe76')
+0x59fe76:	add	rsp, 8
+0x59fe7a:	pop	rbx
+0x59fe7b:	pop	rbp
+0x59fe7c:	pop	r12
+0x59fe7e:	pop	r13
+0x59fe80:	pop	r14
+0x59fe82:	pop	r15
+0x59fe84:	ret	
+('Block @ {}', '0x402480')
+0x402480:	lea	rsp, qword ptr [rsp - 0x98]
+0x402488:	mov	qword ptr [rsp], rdx
+0x40248c:	mov	qword ptr [rsp + 8], rcx
+0x402491:	mov	qword ptr [rsp + 0x10], rax
+0x402496:	mov	rcx, 0x5841
+0x40249d:	call	0x4c9888
+('Block @ {}', '0x4c9888')
+0x4c9888:	lahf	
+0x4c9889:	seto	al
+0x4c988c:	mov	rdx, qword ptr [rip + 0x3195c5]
+0x4c9893:	test	rdx, rdx
+0x4c9896:	je	0x4c98b8
+('Block @ {}', '0x4c98b8')
+0x4c98b8:	cmp	byte ptr [rip + 0x3195b1], 0
+0x4c98bf:	jne	0x4c98b0
+('Block @ {}', '0x4c98c1')
+0x4c98c1:	lea	rdx, qword ptr [rip + 0x319f88]
+0x4c98c8:	mov	rdx, qword ptr [rdx]
+0x4c98cb:	test	rdx, rdx
+0x4c98ce:	je	0x4c98d9
+('Block @ {}', '0x4c98d9')
+0x4c98d9:	lea	rsp, qword ptr [rsp - 0x160]
+0x4c98e1:	mov	qword ptr [rsp], rax
+0x4c98e5:	mov	qword ptr [rsp + 8], rcx
+0x4c98ea:	mov	qword ptr [rsp + 0x10], rdi
+0x4c98ef:	mov	qword ptr [rsp + 0x20], rsi
+0x4c98f4:	mov	qword ptr [rsp + 0x28], r8
+0x4c98f9:	mov	qword ptr [rsp + 0x30], r9
+0x4c98fe:	mov	qword ptr [rsp + 0x38], r10
+0x4c9903:	mov	qword ptr [rsp + 0x40], r11
+0x4c9908:	movq	qword ptr [rsp + 0x60], xmm0
+0x4c990e:	movq	qword ptr [rsp + 0x70], xmm1
+0x4c9914:	movq	qword ptr [rsp + 0x80], xmm2
+0x4c991d:	movq	qword ptr [rsp + 0x90], xmm3
+0x4c9926:	movq	qword ptr [rsp + 0xa0], xmm4
+0x4c992f:	movq	qword ptr [rsp + 0xb0], xmm5
+0x4c9938:	movq	qword ptr [rsp + 0xc0], xmm6
+0x4c9941:	movq	qword ptr [rsp + 0xd0], xmm7
+0x4c994a:	movq	qword ptr [rsp + 0xe0], xmm8
+0x4c9954:	movq	qword ptr [rsp + 0xf0], xmm9
+0x4c995e:	movq	qword ptr [rsp + 0x100], xmm10
+0x4c9968:	movq	qword ptr [rsp + 0x110], xmm11
+0x4c9972:	movq	qword ptr [rsp + 0x120], xmm12
+0x4c997c:	movq	qword ptr [rsp + 0x130], xmm13
+0x4c9986:	movq	qword ptr [rsp + 0x140], xmm14
+0x4c9990:	movq	qword ptr [rsp + 0x150], xmm15
+0x4c999a:	push	r12
+0x4c999c:	mov	r12, rsp
+0x4c999f:	sub	rsp, 0x10
+0x4c99a3:	and	rsp, 0xfffffffffffffff0
+0x4c99a7:	lea	rdi, qword ptr [rip + 0x2c1]
+0x4c99ae:	call	0x401420
+('Block @ {}', '0x401420')
+0x401420:	jmp	qword ptr [rip + 0x3ddbfa]
+('Block @ {}', '0x401426')
+0x401426:	push	1
+0x40142b:	jmp	0x401400
+('Block @ {}', '0x401400')
+0x401400:	push	qword ptr [rip + 0x3ddc02]
+0x401406:	jmp	qword ptr [rip + 0x3ddc04]
+('Block @ {}', '0x4c99b3')
+0x4c99b3:	test	rax, rax
+0x4c99b6:	je	0x4c9b9e
+('Block @ {}', '0x4c9b9e')
+0x4c9b9e:	inc	byte ptr [rip + 0x3192cc]
+0x4c9ba4:	mov	rsp, r12
+0x4c9ba7:	pop	r12
+0x4c9ba9:	mov	rax, qword ptr [rsp]
+0x4c9bad:	mov	rcx, qword ptr [rsp + 8]
+0x4c9bb2:	mov	rdi, qword ptr [rsp + 0x10]
+0x4c9bb7:	mov	rsi, qword ptr [rsp + 0x20]
+0x4c9bbc:	mov	r8, qword ptr [rsp + 0x28]
+0x4c9bc1:	mov	r9, qword ptr [rsp + 0x30]
+0x4c9bc6:	mov	r10, qword ptr [rsp + 0x38]
+0x4c9bcb:	mov	r11, qword ptr [rsp + 0x40]
+0x4c9bd0:	movq	xmm0, qword ptr [rsp + 0x60]
+0x4c9bd6:	movq	xmm1, qword ptr [rsp + 0x70]
+0x4c9bdc:	movq	xmm2, qword ptr [rsp + 0x80]
+0x4c9be5:	movq	xmm3, qword ptr [rsp + 0x90]
+0x4c9bee:	movq	xmm4, qword ptr [rsp + 0xa0]
+0x4c9bf7:	movq	xmm5, qword ptr [rsp + 0xb0]
+0x4c9c00:	movq	xmm6, qword ptr [rsp + 0xc0]
+0x4c9c09:	movq	xmm7, qword ptr [rsp + 0xd0]
+0x4c9c12:	movq	xmm8, qword ptr [rsp + 0xe0]
+0x4c9c1c:	movq	xmm9, qword ptr [rsp + 0xf0]
+0x4c9c26:	movq	xmm10, qword ptr [rsp + 0x100]
+0x4c9c30:	movq	xmm11, qword ptr [rsp + 0x110]
+0x4c9c3a:	movq	xmm12, qword ptr [rsp + 0x120]
+0x4c9c44:	movq	xmm13, qword ptr [rsp + 0x130]
+0x4c9c4e:	movq	xmm14, qword ptr [rsp + 0x140]
+0x4c9c58:	movq	xmm15, qword ptr [rsp + 0x150]
+0x4c9c62:	lea	rsp, qword ptr [rsp + 0x160]
+0x4c9c6a:	jmp	0x4c98b0
+('Block @ {}', '0x4c98b0')
+0x4c98b0:	add	al, 0x7f
+0x4c98b2:	sahf	
+0x4c98b3:	ret	
+('Block @ {}', '0x4024a2')
+0x4024a2:	mov	rax, qword ptr [rsp + 0x10]
+0x4024a7:	mov	rcx, qword ptr [rsp + 8]
+0x4024ac:	mov	rdx, qword ptr [rsp]
+0x4024b0:	lea	rsp, qword ptr [rsp + 0x98]
+0x4024b8:	push	rbp
+0x4024b9:	mov	esi, 0x5a214d
+0x4024be:	mov	edi, 5
+0x4024c3:	mov	rbp, rsp
+0x4024c6:	call	0x401720
+('Block @ {}', '0x401720')
+0x401720:	jmp	qword ptr [rip + 0x3dda7a]
+('Block @ {}', '0x401726')
+0x401726:	push	0x31
+0x40172b:	jmp	0x401400
+('Block @ {}', '0x401400')
+0x401400:	push	qword ptr [rip + 0x3ddc02]
+0x401406:	jmp	qword ptr [rip + 0x3ddc04]
+('Block @ {}', '0x4024cb')
+0x4024cb:	xor	edi, edi
+0x4024cd:	mov	esi, 0x5a214d
+0x4024d2:	call	0x401720
+('Block @ {}', '0x401720')
+0x401720:	jmp	qword ptr [rip + 0x3dda7a]
+('Block @ {}', '0x4024d7')
+0x4024d7:	mov	esi, 0x5a53ee
+0x4024dc:	mov	edi, 0x5a5406
+0x4024e1:	call	0x401510
+('Block @ {}', '0x401510')
+0x401510:	jmp	qword ptr [rip + 0x3ddb82]
+('Block @ {}', '0x401516')
+0x401516:	push	0x10
+0x40151b:	jmp	0x401400
+('Block @ {}', '0x401400')
+0x401400:	push	qword ptr [rip + 0x3ddc02]
+0x401406:	jmp	qword ptr [rip + 0x3ddc04]
+('Block @ {}', '0x4024e6')
+0x4024e6:	mov	edi, 0x5a5406
+0x4024eb:	call	0x4014f0
+('Block @ {}', '0x4014f0')
+0x4014f0:	jmp	qword ptr [rip + 0x3ddb92]
+('Block @ {}', '0x4014f6')
+0x4014f6:	push	0xe
+0x4014fb:	jmp	0x401400
+('Block @ {}', '0x401400')
+0x401400:	push	qword ptr [rip + 0x3ddc02]
+0x401406:	jmp	qword ptr [rip + 0x3ddc04]
+('Block @ {}', '0x4024f0')
+0x4024f0:	mov	edi, 0x5b8870
+0x4024f5:	call	0x4014b0
+('Block @ {}', '0x4014b0')
+0x4014b0:	jmp	qword ptr [rip + 0x3ddbb2]
+('Block @ {}', '0x4014b6')
+0x4014b6:	push	0xa
+0x4014bb:	jmp	0x401400
+('Block @ {}', '0x401400')
+0x401400:	push	qword ptr [rip + 0x3ddc02]
+0x401406:	jmp	qword ptr [rip + 0x3ddc04]
+('Block @ {}', '0x4024fa')
+0x4024fa:	mov	dword ptr [0], 0
+0x402505:	ud2	
+0x402507:	nop	word ptr [rax + rax]
+0x402510:	xor	ebp, ebp
+0x402512:	mov	r9, rdx
+0x402515:	pop	rsi
+0x402516:	mov	rdx, rsp
+0x402519:	and	rsp, 0xfffffffffffffff0
+0x40251d:	push	rax
+0x40251e:	push	rsp
+0x40251f:	mov	r8, 0x59fe90
+0x402526:	mov	rcx, 0x59fe20
+0x40252d:	mov	rdi, 0x402480
+0x402534:	call	0x401640
+
+================== PRINTING CONSTRAINTS ================
+
+[+] Constraint at:  0x4000000L
+[+] Constraint expression: 
+(<Bool True>,)
+
+Total Number of Constraints:  1
+[+] Collect Constrints Complete

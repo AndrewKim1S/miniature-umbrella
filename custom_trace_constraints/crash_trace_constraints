@@ -93,7 +93,7 @@ def collect_constraints(trace, crash, crash_addr, binary_path, input_data, argv)
     print "[!] No crash detected"
   
   # Setup angr
-  p = angr.Project(binary_path, exclude_sim_procedures_list=('malloc', 'free', 'calloc', 'realloc'))
+  p = angr.Project(binary_path)#, exclude_sim_procedures_list=('malloc', 'free', 'calloc', 'realloc'))
   p.hook_symbol('set_program_name', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
   p.hook_symbol('setlocale', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
   p.hook_symbol('bindtextdomain', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
@@ -168,6 +168,8 @@ def main():
   binary = sys.argv[1]
   binary_path = os.path.abspath(binary)
   argv = ["-zR3"]
+  #argv = ["-d"];
+  #argv = [];
   input_file = sys.argv[2]
   input_data = None
 

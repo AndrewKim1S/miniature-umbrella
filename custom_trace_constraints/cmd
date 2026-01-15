@@ -1,0 +1,4 @@
+./crash_trace_constraints <binary> <input file> linux-i386 <trace log> > <target_binary_output>
+Make sure to modify the binary arguments manually in the source code.
+For 64 bit binaries, use linux-x86_64
+

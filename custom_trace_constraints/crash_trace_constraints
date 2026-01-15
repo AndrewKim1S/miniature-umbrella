@@ -21,6 +21,17 @@ import itertools
 import angr
 from angr.exploration_techniques import CrashMonitor, Oppologist
 
+"""
+class SafeOpen(angr.SimProcedure):
+  def run(self, path_addr, flags, mode=None):
+    try:
+      path_str = self.state.mem[path_addr].string.concrete
+    except Exception as e:
+      print "[!] SafeOpen: Failed to resulve path string from addr %s" % path_addr
+      return -1
+    print "[+] SafeOpen: Opening file '%s'" % path_str
+    return self.state.posix.open(path_str, flags)
+"""
 
 # Function for Tracing the target binary
 def trace(binary_path, argv, input_data, stdin, tracer, trace_log):
@@ -101,11 +112,23 @@ def collect_constraints(trace, crash, crash_addr, binary_path, input_data, argv)
   p.hook_symbol('posix_fadvise64', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
   p.hook_symbol('dcgettext', angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained']())
   p.hook_symbol('atexit', angr.SIM_PROCEDURES['libc']['atexit']())
+  #p.hook_symbol('open', SafeOpen())
+  p.hook_symbol('fopen_custom', angr.SIM_PROCEDURES['libc']['fopen']())
+
   prc = angr.SIM_PROCEDURES['stubs']['getopt_long']()
   prc._ret_seq = [ord('d'), -1]
   prc._ret_c = itertools.count()
-  prc._optind_addr = 0x080571b4
-  #prc.optind_addr = 0x080571b4
+
+  # Change to dynamic lookup??
+  #prc._optind_addr = 0x080571b4
+  optind_symbol = p.loader.main_object.get_symbol('optind')
+  if optind_symbol:
+    print "[+] Found optind dynamically at:", hex(optind_symbol.rebased_addr)
+    prc._optind_addr = optind_symbol.rebased_addr
+  else:
+    print "[!] Could not find explicit optind symbol"
+    prc._optind_addr = 0x080571b4
+
   p.hook_symbol('getopt_long', prc)
 
   target_opts = [binary_path] + argv

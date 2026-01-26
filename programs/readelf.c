@@ -333,7 +333,7 @@ static void *
 get_data (void * var, FILE * file, unsigned long offset, bfd_size_type size,
 	  bfd_size_type nmemb, const char * reason)
 {
-  printf("[!] get_data()\n");
+  printf("[+] get_data()\n");
   
   void * mvar;
   bfd_size_type amt = size * nmemb;
@@ -376,7 +376,7 @@ get_data (void * var, FILE * file, unsigned long offset, bfd_size_type size,
 	error (_("Reading 0x%" BFD_VMA_FMT "x"
 		 " bytes extends past end of file for %s\n"),
 	       amt, reason);
-      printf("   [!] condition is used within CVE trace!\n");
+      //printf("   [!] condition is used within CVE trace!\n");
       return NULL;
     }
 
@@ -5532,7 +5532,7 @@ get_32bit_section_headers (FILE * file, bfd_boolean probe)
 static bfd_boolean
 get_64bit_section_headers (FILE * file, bfd_boolean probe)
 {
-  printf("[+] get_64bit_section_headers\n");
+  printf("[+] get_64bit_section_headers()\n");
   Elf64_External_Shdr * shdrs;
   Elf_Internal_Shdr *   internal;
   unsigned int i;
@@ -5540,7 +5540,7 @@ get_64bit_section_headers (FILE * file, bfd_boolean probe)
   unsigned int num = probe ? 1 : elf_header.e_shnum;
 
   /* PR binutils/17531: Cope with unexpected section header sizes.  */
-  if (size == 0 || num == 0)
+  if (size == 0 || num == 0) 
     return FALSE;
   if (size < sizeof * shdrs)
     {
@@ -5551,11 +5551,9 @@ get_64bit_section_headers (FILE * file, bfd_boolean probe)
   if (! probe && size > sizeof * shdrs)
     warn (_("The e_shentsize field in the ELF header is larger than the size of an ELF section header\n"));
 
-  printf("[+] get_64bit_section_headers() -> get_data()\n");
-  shdrs = (Elf64_External_Shdr *) get_data (NULL, file, elf_header.e_shoff,       // <-- CVE angr error
+  shdrs = (Elf64_External_Shdr *) get_data (NULL, file, elf_header.e_shoff,       // <-- CVE 
                                             size, num,
 					    probe ? NULL : _("section headers"));
-  printf("[+] get_64bit_section_headers() <- get_data()\n");
 
   if (shdrs == NULL)
     return FALSE;
@@ -5575,6 +5573,7 @@ get_64bit_section_headers (FILE * file, bfd_boolean probe)
        i < num;
        i++, internal++)
     {
+      printf("   [!] get_64bit... i = %d\n", i);
       internal->sh_name      = BYTE_GET (shdrs[i].sh_name);
       internal->sh_type      = BYTE_GET (shdrs[i].sh_type);
       internal->sh_flags     = BYTE_GET (shdrs[i].sh_flags);
@@ -5585,12 +5584,17 @@ get_64bit_section_headers (FILE * file, bfd_boolean probe)
       internal->sh_info      = BYTE_GET (shdrs[i].sh_info);
       internal->sh_offset    = BYTE_GET (shdrs[i].sh_offset);
       internal->sh_addralign = BYTE_GET (shdrs[i].sh_addralign);
-      if (!probe && internal->sh_link > num)
+      if (!probe && internal->sh_link > num) {
 	warn (_("Section %u has an out of range sh_link value of %u\n"), i, internal->sh_link);
-      if (!probe && internal->sh_flags & SHF_INFO_LINK && internal->sh_info > num)
+        printf("   [!] get_64bit... shlink warning\n");
+      }
+      if (!probe && internal->sh_flags & SHF_INFO_LINK && internal->sh_info > num) {
 	warn (_("Section %u has an out of range sh_info value of %u\n"), i, internal->sh_info);
+        printf("   [!] get_64bit... shinfo warning\n");
+      }
     } 
 
+  printf("   [!] get_64bit_section_headers done\n");
   free (shdrs);
   return TRUE;
 }
@@ -6109,10 +6113,11 @@ get_compression_header (Elf_Internal_Chdr *chdr, unsigned char *buf)
 static int
 process_section_headers (FILE * file)
 {
+  printf("[+] process_section_headers()\n");
   Elf_Internal_Shdr * section;
   unsigned int i;
 
-  section_headers = NULL;
+  section_headers = NULL; 
 
   if (elf_header.e_shnum == 0)
     {
@@ -6124,7 +6129,7 @@ process_section_headers (FILE * file)
 	printf (_("\nThere are no sections in this file.\n"));
 
       return 1;
-    }
+    } 
 
   if (do_sections && !do_header)
     printf (_("There are %d section headers, starting at offset 0x%lx:\n"),
@@ -6135,9 +6140,20 @@ process_section_headers (FILE * file)
       if (! get_32bit_section_headers (file, FALSE))
 	return 0;
     }
-  else if (! get_64bit_section_headers (file, FALSE))
-    return 0;
-
+  else if (! get_64bit_section_headers (file, FALSE))    // <-- CVE
+    {
+    return 0; 
+    }
+ 
+  // CRASH
+  /*struct MyStruct {
+    int a;
+    int b;
+  };
+  struct MyStruct *ptr = NULL;
+  printf("Triggering SEGFAULT\n");
+  ptr->b = 10;*/
+  
   /* Read in the string table, so that we have names to display.  */
   if (elf_header.e_shstrndx != SHN_UNDEF
        && elf_header.e_shstrndx < elf_header.e_shnum)
@@ -6152,7 +6168,7 @@ process_section_headers (FILE * file)
 
 	  string_table_length = string_table != NULL ? section->sh_size : 0;
 	}
-    }
+    } 
 
   /* Scan the sections for the dynamic symbol table
      and dynamic string table and debug sections.  */
@@ -6161,7 +6177,8 @@ process_section_headers (FILE * file)
   dynamic_syminfo = NULL;
   symtab_shndx_list = NULL;
 
-  eh_addr_size = is_32bit_elf ? 4 : 8;
+  eh_addr_size = is_32bit_elf ? 4 : 8; 
+  
   switch (elf_header.e_machine)
     {
     case EM_MIPS:
@@ -16970,7 +16987,6 @@ process_arch_specific (FILE * file)
 static int
 get_file_header (FILE * file)
 {
-  printf("[+] get_file_header()\n");
   /* Read in the identity array.  */
   if (fread (elf_header.e_ident, EI_NIDENT, 1, file) != 1)
     return 0;
@@ -17055,9 +17071,7 @@ get_file_header (FILE * file)
       if (is_32bit_elf)
 	get_32bit_section_headers (file, TRUE);
       else
-        printf("[+] get_file_header() -> get_64bit_section_headers()\n");
 	get_64bit_section_headers (file, TRUE);    // <-- CVE 
-        printf("[+] get_file_header() <- get_64bit_section_headers()\n");
     }
 
   return 1;
@@ -17073,13 +17087,11 @@ process_object (char * file_name, FILE * file)
   printf("[+] process_object()\n");
   unsigned int i;
 
-  printf("[+] process_object() -> get_file_header()\n");
   if (! get_file_header (file))   // <-- CVE
     {
       error (_("%s: Failed to read file header\n"), file_name);
       return 1;
     }
-  printf("[+] process_object() <- get_file_header()\n");
 
   /* Initialise per file variables.  */
   for (i = ARRAY_SIZE (version_info); i--;)
@@ -17113,8 +17125,8 @@ process_object (char * file_name, FILE * file)
 
   if (! process_file_header ())
     return 1;
-
-  if (! process_section_headers (file))
+  
+  if (! process_section_headers (file))   // <-- CVE
     {
       /* Without loaded section headers we cannot process lots of
 	 things.  */
@@ -17122,7 +17134,7 @@ process_object (char * file_name, FILE * file)
 
       if (! do_using_dynamic)
 	do_syms = do_dyn_syms = do_reloc = 0;
-    }
+    } 
 
   if (! process_section_groups (file))
     {
@@ -17131,7 +17143,7 @@ process_object (char * file_name, FILE * file)
     }
 
   if (process_program_headers (file))
-    process_dynamic_section (file);
+    process_dynamic_section (file); 
 
   process_relocs (file);
 
@@ -17553,9 +17565,7 @@ process_file (char * file_name)
       rewind (file);
       archive_file_size = archive_file_offset = 0;
 
-      printf("[+] process_file -> process_object\n");
       ret = process_object (file_name, file);   // <-- CVE
-      printf("[+] process_file <- process_object\n");
     }
 
   fclose (file);
@@ -17625,11 +17635,9 @@ main (int argc, char ** argv)
     }
    
   err = 0;
-  printf("[+] main() -> process_file()\n");
   while (optind < argc)
     err |= process_file (argv[optind++]);
 
-  printf("[+] main() <- process_file()\n");
   if (dump_sects != NULL)
     free (dump_sects);
   if (cmdline_dump_sects != NULL)

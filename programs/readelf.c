@@ -362,21 +362,16 @@ get_data (void * var, FILE * file, unsigned long offset, bfd_size_type size,
       return NULL;
     }
 
-  // DEBUG
-  /*printf("   amt: %llu\n", (unsigned long long)amt);
-  printf("   size: %llu\n", (unsigned long long)size);
-  printf("   nmemb: %llu\n", (unsigned long long)nmemb);
-  printf("   current_file_size: %llu\n", (unsigned long long)current_file_size); */
-
   /* Be kind to memory chekers (eg valgrind, address sanitizer) by not
      attempting to allocate memory when the read is bound to fail.  */
   //if (amt > current_file_size || offset + archive_file_offset + amt > current_file_size) {
   if (amt > 968 || offset + archive_file_offset + amt > 968) {
-      if (reason)
-	error (_("Reading 0x%" BFD_VMA_FMT "x"
-		 " bytes extends past end of file for %s\n"),
-	       amt, reason);
-      //printf("   [!] condition is used within CVE trace!\n");
+      if (reason) {
+	printf("   [!] get_data()... Reading extends past end of file\n");
+        //error (_("Reading 0x%" BFD_VMA_FMT "x"
+	//	 " bytes extends past end of file for %s\n"),
+	//       amt, reason);
+      }
       return NULL;
     }
 
@@ -5573,7 +5568,6 @@ get_64bit_section_headers (FILE * file, bfd_boolean probe)
        i < num;
        i++, internal++)
     {
-      printf("   [!] get_64bit... i = %d\n", i);
       internal->sh_name      = BYTE_GET (shdrs[i].sh_name);
       internal->sh_type      = BYTE_GET (shdrs[i].sh_type);
       internal->sh_flags     = BYTE_GET (shdrs[i].sh_flags);
@@ -5585,16 +5579,15 @@ get_64bit_section_headers (FILE * file, bfd_boolean probe)
       internal->sh_offset    = BYTE_GET (shdrs[i].sh_offset);
       internal->sh_addralign = BYTE_GET (shdrs[i].sh_addralign);
       if (!probe && internal->sh_link > num) {
-	warn (_("Section %u has an out of range sh_link value of %u\n"), i, internal->sh_link);
-        printf("   [!] get_64bit... shlink warning\n");
+	//warn (_("Section %u has an out of range sh_link value of %u\n"), i, internal->sh_link);
+        printf("   [!] get_64bit... Section %u shlink warning\n", i);
       }
       if (!probe && internal->sh_flags & SHF_INFO_LINK && internal->sh_info > num) {
-	warn (_("Section %u has an out of range sh_info value of %u\n"), i, internal->sh_info);
-        printf("   [!] get_64bit... shinfo warning\n");
+	//warn (_("Section %u has an out of range sh_info value of %u\n"), i, internal->sh_info);
+        printf("   [!] get_64bit... Section %u shinfo warning\n", i);
       }
     } 
 
-  printf("   [!] get_64bit_section_headers done\n");
   free (shdrs);
   return TRUE;
 }
@@ -6143,16 +6136,7 @@ process_section_headers (FILE * file)
   else if (! get_64bit_section_headers (file, FALSE))    // <-- CVE
     {
     return 0; 
-    }
- 
-  // CRASH
-  /*struct MyStruct {
-    int a;
-    int b;
-  };
-  struct MyStruct *ptr = NULL;
-  printf("Triggering SEGFAULT\n");
-  ptr->b = 10;*/
+    } 
   
   /* Read in the string table, so that we have names to display.  */
   if (elf_header.e_shstrndx != SHN_UNDEF
@@ -6162,13 +6146,13 @@ process_section_headers (FILE * file)
 
       if (section->sh_size != 0)
 	{
-	  string_table = (char *) get_data (NULL, file, section->sh_offset,
+	  string_table = (char *) get_data (NULL, file, section->sh_offset,    // <-- CVE
                                             1, section->sh_size,
                                             _("string table"));
 
 	  string_table_length = string_table != NULL ? section->sh_size : 0;
 	}
-    } 
+    }  
 
   /* Scan the sections for the dynamic symbol table
      and dynamic string table and debug sections.  */
@@ -6177,12 +6161,12 @@ process_section_headers (FILE * file)
   dynamic_syminfo = NULL;
   symtab_shndx_list = NULL;
 
-  eh_addr_size = is_32bit_elf ? 4 : 8; 
-  
+  eh_addr_size = is_32bit_elf ? 4 : 8;  
+
   switch (elf_header.e_machine)
     {
     case EM_MIPS:
-    case EM_MIPS_RS3_LE:
+case EM_MIPS_RS3_LE:
       /* The 64-bit MIPS EABI uses a combination of 32-bit ELF and 64-bit
 	 FDE addresses.  However, the ABI also has a semi-official ILP32
 	 variant for which the normal FDE address size rules apply.
@@ -6226,7 +6210,10 @@ process_section_headers (FILE * file)
       break;
     }
 
-#define CHECK_ENTSIZE_VALUES(section, i, size32, size64)		\
+
+// DEBUG
+// The below code call error() which angr is unable to process 
+/*#define CHECK_ENTSIZE_VALUES(section, i, size32, size64)		\
   do									\
     {									\
       bfd_size_type expected_entsize = is_32bit_elf ? size32 : size64;	\
@@ -6234,15 +6221,29 @@ process_section_headers (FILE * file)
 	{								\
 	  char buf[40];							\
 	  sprintf_vma (buf, section->sh_entsize);			\
-	  /* Note: coded this way so that there is a single string for  \
-	     translation.  */ \
 	  error (_("Section %d has invalid sh_entsize of %s\n"), i, buf); \
 	  error (_("(Using the expected size of %u for the rest of this dump)\n"), \
 		   (unsigned) expected_entsize);			\
 	  section->sh_entsize = expected_entsize;			\
 	}								\
     }									\
-  while (0)
+  while (0)*/
+// The replacement is as follows
+#define CHECK_ENTSIZE_VALUES(section, i, size32, size64)                \
+  do                                                                    \ 
+    {                                                                   \
+      bfd_size_type expected_entsize = is_32bit_elf ? size32 : size64;  \
+      if (section->sh_entsize != expected_entsize)                      \
+        {                                                               \
+          char buf[40];                                                 \
+          sprintf_vma(buf, section->sh_entsize);                        \
+          printf("[!] process_section_headers... Section %d has invalid sh_entsize of %s\n", i, buf); \
+          printf("[!] process_section_headers... Using the expected size of %u for the rest of this dump\n", \
+            (unsigned) expected_entsize);                               \
+          section->sh_entsize = expected_entsize;                       \
+        }                                                               \
+    }                                                                   \
+  while(0)
 
 #define CHECK_ENTSIZE(section, i, type)					\
   CHECK_ENTSIZE_VALUES (section, i, sizeof (Elf32_External_##type),	    \
@@ -13051,20 +13052,31 @@ dump_section_as_bytes (Elf_Internal_Shdr * section,
 		       FILE * file,
 		       bfd_boolean relocate)
 {
+  printf("[+] dump_section_as_bytes()\n");
   Elf_Internal_Shdr * relsec;
   bfd_size_type       bytes;
   bfd_size_type       section_size;
   bfd_vma             addr;
   unsigned char *     data;
   unsigned char *     real_start;
-  unsigned char *     start;
+  unsigned char *     start; 
 
   real_start = start = (unsigned char *) get_section_contents (section, file);
   if (start == NULL)
     return;
   section_size = section->sh_size;
 
-  printf (_("\nHex dump of section '%s':\n"), printable_section_name (section));
+  //printf (_("\nHex dump of section '%s':\n"), printable_section_name (section));
+  printf("   [!] Hex dump of section\n");
+
+  // CRASH
+  /*struct MyStruct {
+    int a;
+    int b;
+  };
+  struct MyStruct *ptr = NULL;
+  printf("Triggering SEGFAULT\n");
+  ptr->b = 10;*/
 
   if (decompress_dumps)
     {
@@ -13110,6 +13122,7 @@ dump_section_as_bytes (Elf_Internal_Shdr * section,
 	  new_size -= 12;
 	}
 
+      // CVE
       if (uncompressed_size
 	  && uncompress_section_contents (& start, uncompressed_size,
 					  & new_size))
@@ -13439,13 +13452,14 @@ initialise_dumps_byname (void)
 static void
 process_section_contents (FILE * file)
 {
+  printf("[+] process_section_contents\n");
   Elf_Internal_Shdr * section;
   unsigned int i;
 
   if (! do_dump)
     return;
 
-  initialise_dumps_byname ();
+  initialise_dumps_byname (); 
 
   for (i = 0, section = section_headers;
        i < elf_header.e_shnum && i < num_dump_sects;
@@ -17134,28 +17148,37 @@ process_object (char * file_name, FILE * file)
 
       if (! do_using_dynamic)
 	do_syms = do_dyn_syms = do_reloc = 0;
-    } 
-
+    }   
+  
   if (! process_section_groups (file))
     {
       /* Without loaded section groups we cannot process unwind.  */
       do_unwind = 0;
-    }
+    } 
 
   if (process_program_headers (file))
-    process_dynamic_section (file); 
+    process_dynamic_section (file);  
 
-  process_relocs (file);
+  process_relocs (file); 
 
-  process_unwind (file);
+  process_unwind (file); 
 
-  process_symbol_table (file);
+  process_symbol_table (file); 
 
-  process_syminfo (file);
+  process_syminfo (file); 
 
-  process_version_sections (file);
+  process_version_sections (file); 
 
-  process_section_contents (file);
+  process_section_contents (file);     // <-- CVE occurs here
+
+  // CRASH
+  /*struct MyStruct {
+    int a;
+    int b;
+  };
+  struct MyStruct *ptr = NULL;
+  printf("Triggering SEGFAULT\n");
+  ptr->b = 10;*/
 
   process_notes (file);
 
